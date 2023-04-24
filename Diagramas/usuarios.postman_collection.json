@@ -1,0 +1,41 @@
+{
+	"info": {
+		"_postman_id": "a43b707d-ce20-42a1-a60c-4789e956ecf9",
+		"name": "usuarios",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "15785462"
+	},
+	"item": [
+		{
+			"name": "getUsuarios",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Juan Rodriguez\",\r\n    \"email\": \"juaen@rlodriguez.cl\",\r\n    \"password\": \"Hector22\",\r\n    \"phones\": [\r\n        {\r\n            \"number\": \"1234567\",\r\n            \"citycode\": \"1\",\r\n            \"countrycode\": \"99\"\r\n        },\r\n        {\r\n            \"number\": \"962234900\",\r\n            \"citycode\": \"5\",\r\n            \"countrycode\": \"98\"\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/usuarios",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"usuarios"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

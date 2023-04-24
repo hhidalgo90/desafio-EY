@@ -47,6 +47,11 @@ public class UsuarioServiceImpl implements IUsuarioService {
         return usuarioDao.findByemail(email);
     }
 
+    @Override
+    public void delete(Long id) {
+        usuarioDao.deleteById(id);
+    }
+
     private void setUsuario(Usuario usuario) {
         usuario.setId(UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE);
         usuario.setFecha_creacion(new Date());

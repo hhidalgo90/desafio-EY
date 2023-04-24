@@ -68,6 +68,40 @@ public class UsuarioController {
         return new ResponseEntity<Map<String, Object>>(respuesta, HttpStatus.CREATED);
     }
 
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT) //Responde 204, sin contenido
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+        Map<String, Object> respuesta = new HashMap<>();
+        try {
+            usuarioService.delete(id);
+        } catch (DataAccessException e) {
+            respuesta.put("mensaje", "Error al eliminar Usuario: ".concat(e.getMessage()));
+            return new ResponseEntity<Map<String, Object>>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        respuesta.put("mensaje", "Usuario eliminado con éxito!");
+        return new ResponseEntity<Map<String, Object>>(respuesta, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> findById(@PathVariable Long id){
+        Map<String, Object> respuesta = new HashMap<>();
+        Usuario retorno = null;
+        try {
+            retorno = usuarioService.findById(id);
+        } catch (DataAccessException e){
+            respuesta.put("mensaje" , "Error al consultar usuario: ".concat(e.getMessage()));
+            return new ResponseEntity<Map<String, Object>>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        if(retorno == null){
+
+            respuesta.put("mensaje" , "El usuario ID: ".concat(id.toString()).concat(" no existe!!"));
+            return new ResponseEntity<Map<String, Object>>(respuesta, HttpStatus.NOT_FOUND);
+        }
+        else {
+            return new ResponseEntity<Usuario>(retorno, HttpStatus.OK);
+        }
+    }
+
     private boolean validarPassword(String password) {
         Pattern regex = Pattern.compile(REGEX_PASSWORD);
         Matcher matcher = regex.matcher(password);

@@ -2,6 +2,7 @@ package com.prueba.usuarios.controller;
 
 import com.prueba.usuarios.model.entity.Usuario;
 import com.prueba.usuarios.service.IUsuarioService;
+import com.prueba.usuarios.util.PasswordUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,8 +17,6 @@ import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @RestController
@@ -25,7 +24,6 @@ import java.util.stream.Collectors;
 @RequestMapping("/usuarios")
 public class UsuarioController {
     private static final Logger logger = LoggerFactory.getLogger(UsuarioController.class);
-    private static final String REGEX_PASSWORD = "^(?=.*[0-9]{2})(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{4,}$";
 
     @Autowired
     private IUsuarioService usuarioService;
@@ -53,7 +51,7 @@ public class UsuarioController {
                 respuesta.put("mensaje" , "El correo ya esta registrado");
                 return new ResponseEntity<Map<String, Object>>(respuesta, HttpStatus.BAD_REQUEST);
             }
-            if (!validarPassword(usuario.getPassword())) {
+            if (!PasswordUtil.validarPassword(usuario.getPassword())) {
                 respuesta.put("mensaje" , "Password debe tener al menos una mayuscula, letras minusculas y dos numeros");
                 return new ResponseEntity<Map<String, Object>>(respuesta, HttpStatus.BAD_REQUEST);
             }
@@ -100,14 +98,5 @@ public class UsuarioController {
         else {
             return new ResponseEntity<Usuario>(retorno, HttpStatus.OK);
         }
-    }
-
-    private boolean validarPassword(String password) {
-        Pattern regex = Pattern.compile(REGEX_PASSWORD);
-        Matcher matcher = regex.matcher(password);
-        if(matcher.matches()){
-            return true;
-        }
-        return false;
     }
 }
